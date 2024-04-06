@@ -1,4 +1,5 @@
 import random
+import uuid
 from enum import Enum
 
 # account = {
@@ -49,7 +50,7 @@ def printBankAccounts(accs:dict):
     return
 
 def createAccount(accs:dict, acc_name):
-    acc_num = str(random.randint(1,9999)).zfill(10)
+    acc_num = str(uuid.uuid4())[:8]
     accs[acc_num] = {"name":acc_name, "balance":0}
     print(f"Account {acc_num} was created sucessfully for {acc_name}")
     return
