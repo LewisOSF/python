@@ -1,8 +1,5 @@
 import random
-
-#account number - uniquie
-#account name
-#balance
+from enum import Enum
 
 # account = {
 #     "account-number" : {
@@ -10,35 +7,35 @@ import random
 #     },
 # }
 
+class Operation(Enum):
+    DEPOSIT = 1
+    WITHDRAW = 2
+
 def account_exist(accs:dict, acc_num:str) -> bool:
     if acc_num in accs:
         return True
     else:
+        print(f"Account number {acc_num} not found!")
         return False
 
-def deposit(accs:dict, acc_num:str, amt:float):
+def do_trans(accs:dict, acc_num:str, amt:float, opr:Operation):
+    msg = ""
     if account_exist(accs, acc_num):
         current_bal = accs[acc_num]['balance']
-        new_bal = current_bal + amt
+        if opr == Operation.DEPOSIT:
+            msg = "Deposit"
+            new_bal = current_bal + amt
+        elif opr == Operation.WITHDRAW:
+            msg = "Withdraw"
+            new_bal = current_bal - amt
         accs[acc_num]['balance'] = new_bal
-        print(f"Deposit successful, new balance is {new_bal}")
-    else:
-        print(f"Account number {acc_num} not found!")
-
-def withdrawl(accs:dict, acc_num:str, amt:float):
-    if account_exist(accs, acc_num):
-        current_bal = accs[acc_num]['balance']
-        new_bal = current_bal - amt
-        accs[acc_num]['balance'] = new_bal
-        print(f"Withdrawl successful, new balance is {new_bal}")
-    else:
-        print(f"Account number {acc_num} not found!")
+        print(f"{msg} successful, new balance is {new_bal}")
 
 def check_balance(accs:dict, acc_num:str)->float:
     if account_exist(accs, acc_num):
         return accs[acc_num]['balance']
     else:
-        print(f"Account number {acc_num} not found!")
+        return 0
 
 def printBankAccounts(accs:dict):
     print("Account Number | Account Name | Balance")
@@ -78,12 +75,12 @@ while True:
         print("\nMake Deposit")
         account_number = input("Enter Account No: ")
         amount = float(input("Enter Amount to Deposit: "))
-        deposit(accounts, account_number, amount)
+        do_trans(accounts, account_number, amount, Operation.DEPOSIT)
     elif choice == 3:
         print("\nMake Withdrawl")
         account_number = input("Enter Account No: ")
         amount = float(input("Enter Amount to Withdraw: "))
-        withdrawl(accounts, account_number, amount)
+        do_trans(accounts, account_number, amount, Operation.WITHDRAW)
     elif choice == 4:
         print("\nCheck Account Balance")
         account_number = input("Enter Account No: ")
