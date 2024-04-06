@@ -9,8 +9,12 @@ Requirements:
 
 - Implement functions to manage bank accounts and customer information
 - The system should support the following operations:
+
   - Creating a new bank account
   - Making a deposit
   - Making a withdrawal
   - Checking the balance of an account
+  - Print all bank accounts
   - Exit the program
+
+- Accounts and customers should be represented using a dictionary
